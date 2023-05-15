@@ -1,216 +1,316 @@
-//theme selector
-//change between click/mouseover/etc
+//theme selector **
+//paintbrush functionality**
 //toggle grid lines
+//fix eraser and current
 
 //global color variables
-var color = 'black';
-var boardColor = 'white';
-var themes = ['Night Mode', 'Day Mode', 'Chalkboard'];
-var backgroundColor = 'white';
-var toolboxColor = 'grey'
-var borderColors = 'black';
-var fontColor = 'black';
-var buttonColor = 'white';
-var fontColor2 = 'gray'
+var color = "black";
+var boardColor = "white";
+var backgroundColor = "white";
+var toolboxColor = "grey";
+var borderColors = "black";
+var fontColor = "black";
+var buttonColor = "gray";
+var fontColor2 = "gray";
+//creates color array for color pallette
+const colors = [
+  // Red Shades
+  "#FF0000",
+  "#FF4500",
+  "#FF6347",
+  "#FF7F50",
+  "#FF8C00",
 
-chalkboardTheme();
-// nightMode();
-// dayMode();
+  // Orange Shades
+  "#FFA500",
+  "#FFB450",
+  "#FFC066",
+  "#FFD280",
+  "#FFDE99",
 
-// var themeModes = [nightMode(), dayMode(), chalkboardTheme()];  //HELP HERE
-SelectorContainer();
-// themeButton(themes[0]);  //HELP HERE
-chalkboard();
+  // Yellow Shades
+  "#FFFF00",
+  "#FFFF4D",
+  "#FFFF99",
+  "#FFFFB3",
+  "#FFFFCC",
 
+  // Green Shades
+  "#008000",
+  "#1D4F00",
+  "#2B7300",
+  "#3A9700",
+  "#48BA00",
 
+  // Blue Shades
+  "#0000FF",
+  "#1A1AFF",
+  "#3333FF",
+  "#4D4DFF",
+  "#6666FF",
+
+  // Purple Shades
+  "#800080",
+  "#9A1A9A",
+  "#B333B3",
+  "#CC4DCC",
+  "#E666E6",
+
+  // Brown Shades
+  "#8B4513",
+  "#A35C1C",
+  "#BD7326",
+  "#D68A30",
+  "#F0A03A",
+
+  // Black, White, and Gray Shades
+  "#000000",
+  "#333333",
+  "#666666",
+  "#999999",
+  "#CCCCCC",
+
+  // Pink Shades
+  "#FF69B4",
+  "#FF85BF",
+  "#FFA0C9",
+  "#FFBCCF",
+  "#FFD7D9",
+
+  // Cyan Shades
+  "#00FFFF",
+  "#4DFFFF",
+  "#99FFFF",
+  "#B3FFFF",
+  "#CCFFFF",
+];
+
+setupPage();
+
+function setupPage() {
+  topPageContainerDraw();
+  buttonContainerDraw();
+  eraserContainerDraw();
+  createButtons();
+  chalkboard();
+  colorPalette();
+}
+
+function topPageContainerDraw() {
+  var body = document.querySelector("body");
+  var topPageContainer = document.createElement("div");
+  topPageContainer.setAttribute("id", "topPageContainer");
+  body.appendChild(topPageContainer);
+
+  topPageContainer.style.border = `3px solid ${borderColors}`;
+  topPageContainer.style.height = "100px";
+  topPageContainer.style.width = "100%";
+  topPageContainer.style.margin = "auto";
+  topPageContainer.style.background = toolboxColor;
+  topPageContainer.style.display = "flex";
+  topPageContainer.style.alignItems = "center";
+  topPageContainer.style.justifyContent = "space-evenly";
+}
+
+function eraserContainerDraw() {
+  var eraserPic = document.createElement("img");
+  eraserPic.setAttribute("src", "/eraser.png");
+  topPageContainer.appendChild(eraserPic);
+
+  eraserPic.style.height = "150px";
+  eraserPic.style.width = "150px";
+  eraserPic.style.marginRight = "15%";
+
+  eraserPic.addEventListener("click", function () {
+   color = boardColor;
+  });
+}
 
 //theme selector function here
-function SelectorContainer () {
-    var body = document.querySelector('body');
-    var themeContainer = document.createElement('div');
-    themeContainer.setAttribute('id', 'themeContainer');
-    body.appendChild(themeContainer);
+function buttonContainerDraw() {
+  var buttonContainer = document.createElement("div");
+  buttonContainer.setAttribute("id", "themeContainer");
+  var topPageContainer = document.querySelector("#topPageContainer");
+  topPageContainer.appendChild(buttonContainer);
 
-    themeContainer.style.border = `3px solid ${borderColors}`;
-    themeContainer.style.height = '50px';
-    themeContainer.style.width = '50%';
-    themeContainer.style.margin = 'auto';
-    themeContainer.style.background = toolboxColor;
-    themeContainer.style.display = 'flex';
-    themeContainer.style.alignItems = 'center';
-    themeContainer.style.justifyContent = 'space-evenly';
+  buttonContainer.style.border = `3px solid ${borderColors}`;
+  buttonContainer.style.height = "50px";
+  buttonContainer.style.width = "50%";
+  buttonContainer.style.margin = "auto";
+  buttonContainer.style.background = boardColor;
+  buttonContainer.style.display = "flex";
+  buttonContainer.style.alignItems = "center";
+  buttonContainer.style.justifyContent = "space-evenly";
 }
+
 //creates theme button
-function Button (buttonName) {
-var themeContainer = document.querySelector('#themeContainer');
-var button = document.createElement('button');
-    themeContainer.appendChild(button);
+function buttonGenerator(buttonName, funcName) {
+  var themeContainer = document.querySelector("#themeContainer");
+  var button = document.createElement("button");
+  button.setAttribute("type", "button");
+  themeContainer.appendChild(button);
 
-    button.style.height = '40px';
-    button.style.width = '100px';
-    button.textContent = buttonName;
-    button.style.color = fontColor;
-    button.style.fontFamily = 'Georgia';
-    button.style.background = buttonColor;
-    button.addEventListener('click', nightMode); //HELP HEREE
+  button.style.height = "40px";
+  button.style.width = "100px";
+  button.textContent = buttonName;
+  button.style.color = fontColor;
+  button.style.fontFamily = "Georgia";
+  button.style.background = buttonColor;
+  button.addEventListener("click", funcName);
 }
-Button('Night Mode');
-Button('Day Mode');
-Button('Chalkboard');
-Button('Grid Lines');
-Button('Paint Brush');
-Button('StickN\'Poke')
 
-
-//creates multiple theme buttons
-    //  for(var i = 0; i < 3; i++) {
-    //     themeButton(themes[i]);
-    //  }
-
+function createButtons() {
+  // creates multiple theme buttons
+  buttonGenerator("Night Mode", nightMode);
+  buttonGenerator("Day Mode", dayMode);
+  buttonGenerator("Chalkboard", chalkboardTheme);
+  buttonGenerator("Clear Page", clearPage);
+}
 
 //creates chalkboard and drawing effect
 function chalkboard() {
-    var body = document.querySelector('body');
-    var mainContainer = document.createElement('div');
-    body.appendChild(mainContainer);
-    var chalkboard = document.createElement('div');
-    mainContainer.appendChild(chalkboard);
-    var toolbox = document.createElement('div');
-    toolbox.setAttribute('id','toolbox');
-    body.appendChild(toolbox);
+  var body = document.querySelector("body");
+  var mainContainer = document.createElement("div");
+  body.appendChild(mainContainer);
+  var chalkboard = document.createElement("div");
+  mainContainer.appendChild(chalkboard);
+  var toolbox = document.createElement("div");
+  toolbox.setAttribute("id", "toolbox");
+  body.appendChild(toolbox);
 
-    body.style.backgroundColor = backgroundColor;
-    //black outline, main container
-    mainContainer.style.width = '98%';
-    mainContainer.style.height = '500px';
-    mainContainer.style.display = 'flex';
-    mainContainer.style.padding = '1%';
-    mainContainer.style.justifyContent = 'center';
-    mainContainer.style.alignContent= 'center';
-    
+  body.style.backgroundColor = backgroundColor;
+  //black outline, main container
+  mainContainer.style.width = "98%";
+  mainContainer.style.height = "500px";
+  mainContainer.style.display = "flex";
+  mainContainer.style.padding = "1%";
+  mainContainer.style.justifyContent = "center";
+  mainContainer.style.alignContent = "center";
 
-    //color pallette for color picker
-    toolbox.style.border = `3px solid ${borderColors}`;
-    toolbox.style.margin = '50px auto';
-    toolbox.style.background = toolboxColor;
-    toolbox.style.height = '10vh';
-    toolbox.style.width = '97%';
-    toolbox.style.display = 'flex';
-    toolbox.style.flexWrap = 'wrap';
-    toolbox.style.alignItems = 'center';
-    toolbox.style.justifyContent = 'space-evenly'
+  //color pallette for color picker
+  toolbox.style.border = `3px solid ${borderColors}`;
+  toolbox.style.margin = "50px auto";
+  toolbox.style.background = toolboxColor;
+  toolbox.style.height = "10vh";
+  toolbox.style.width = "97%";
+  toolbox.style.display = "flex";
+  toolbox.style.flexWrap = "wrap";
+  toolbox.style.alignItems = "center";
+  toolbox.style.justifyContent = "space-evenly";
 
-    //container for all tile divs 
-    chalkboard.style.height = '96%';
-    chalkboard.style.width = '100%';
-    chalkboard.style.padding = '2%';
-    chalkboard.style.backgroundColor = borderColors;
-    chalkboard.style.display = 'flex';
-    chalkboard.style.flexWrap = 'wrap';
-    
-    //creation of all the tiles
-        var gridSize = 100;
-    for(var i = 0; i < gridSize * gridSize; i++) {
-        var pixel = document.createElement('div');
-        pixel.style.margin = '0';
-        pixel.style.padding = '0';
-        pixel.style.height = '1%';
-        pixel.style.width = '1%';
-        pixel.style.backgroundColor = boardColor;
-        pixel.addEventListener('mouseover', function(e) {
-            e.target.style.backgroundColor = color;
-        });
-        chalkboard.appendChild(pixel);
-    }        
+  //container for all tile divs
+  chalkboard.style.height = "96%";
+  chalkboard.style.width = "96%";
+  chalkboard.style.padding = "2%";
+  chalkboard.style.backgroundColor = borderColors;
+  chalkboard.style.display = "flex";
+  chalkboard.style.flexWrap = "wrap";
+
+  //boolean for drawing
+  var isPainting = false;
+  //creation of all the tiles
+  var gridSize = 100;
+  for (var i = 0; i < gridSize * gridSize; i++) {
+    var pixel = document.createElement("div");
+    pixel.style.margin = "0";
+    pixel.style.padding = "0";
+    pixel.style.height = "1%";
+    pixel.style.width = "1%";
+    pixel.style.backgroundColor = boardColor;
+    pixel.addEventListener("mousedown", function (e) {
+      isPainting = true;
+      e.target.style.backgroundColor = color;
+    });
+    pixel.addEventListener("mouseup", function () {
+      isPainting = false;
+    });
+    pixel.addEventListener("mousemove", function (e) {
+      if (isPainting) {
+        e.target.style.backgroundColor = color;
+      }
+    });
+
+    chalkboard.appendChild(pixel);
+  }
 }
-//creates color array for color pallette
-var colors = [
-    '#F44336', '#FFEBEE', '#FFCDD2', '#EF9A9A', '#E57373', '#EF5350', '#E53935', '#D32F2F', '#C62828', '#B71C1C',
-    '#FF8A80', '#FF5252', '#FF1744', '#D50000', '#FCE4EC', '#F8BBD0', '#F48FB1', '#F06292', '#EC407A', '#E91E63',
-    '#D81B60', '#C2185B', '#AD1457', '#880E4F', '#FF80AB', '#FF4081', '#F50057', '#C51162', '#F3E5F5', '#E1BEE7',
-    '#CE93D8', '#BA68C8', '#AB47BC', '#9C27B0', '#8E24AA', '#7B1FA2', '#6A1B9A', '#4A148C', '#EA80FC', '#E040FB',
-    '#D500F9', '#AA00FF', '#EDE7F6', '#D1C4E9', '#B39DDB', '#9575CD', '#7E57C2', '#673AB7', '#5E35B1', '#512DA8',
-    '#4527A0', '#311B92', '#B388FF', '#7C4DFF', '#651FFF', '#6200EA', '#E8EAF6', '#C5CAE9', '#9FA8DA', '#7986CB',
-    '#5C6BC0', '#3F51B5', '#3949AB', '#303F9F', '#283593', '#1A237E', '#8C9EFF', '#536DFE', '#3D5AFE', '#304FFE',
-    '#E3F2FD', '#BBDEFB', '#90CAF9', '#64B5F6', '#42A5F5', '#2196F3', '#1E88E5', '#1976D2', '#1565C0', '#0D47A1',
-    '#82B1FF', '#448AFF', '#2979FF', '#2962FF', '#E1F5FE', '#B3E5FC', '#81D4FA', '#4FC3F7', '#29B6F6', '#03A9F4',
-    '#039BE5', '#0288D1', '#0277BD', '#01579B', '#80D8FF', '#40C4FF', '#00B0FF', '#0091EA', '#E0F7FA', '#B2EBF2',
-    '#80DEEA', '#4DD0E1', '#26C6DA', '#00BCD4', '#00ACC1', '#0097A7', '#00838F', '#006064', '#84FFFF', '#18FFFF',
-    '#00E5FF', '#00B8D4', '#E0F2F1', '#B2DFDB', '#80CBC4', '#4DB6AC', '#26A69A', '#009688', '#00897B', '#00796B',
-    '#00695C', '#004D40', '#00BFA5']
-
-
 
 //creates color selection buttons
-function colorButton (buttonColor, text) {
-    var toolbox = document.querySelector('#toolbox');
-    var button = document.createElement('button');
-    toolbox.appendChild(button);
+function colorButton(buttonColor, text) {
+  var toolbox = document.querySelector("#toolbox");
+  var button = document.createElement("button");
+  button.setAttribute("type", "button");
+  toolbox.appendChild(button);
 
-    button.style.background = buttonColor;
-    button.style.height = '30%';
-    button.style.width = '2%';
-    button.style.margin = '2px';
-    button.style.position = 'relative';
-    button.style.border = `3px solid ${borderColors}`;
-    button.textContent = text;
-    button.style.fontFamily = 'Georgia';
-    button.style.fontWeight = 'bold';
-    button.style.color = fontColor2;
+  button.style.background = buttonColor;
+  button.style.height = "30%";
+  button.style.width = "5%";
+  button.style.margin = "2px";
+  button.style.position = "relative";
+  button.style.border = `3px solid ${borderColors}`;
+  button.textContent = text;
+  button.style.fontFamily = "Georgia";
+  button.style.fontWeight = "bold";
+  button.style.color = fontColor2;
 
-    button.addEventListener('click' , function (e) {
-        color = e.target.style.background;
-    })
+  button.addEventListener("click", function (e) {
+    color = e.target.style.background;
+  });
 }
-
 
 //assigns plethora of colors to toolbox
-colorButton(boardColor, 'ER');
-colorButton(color, 'Cur')
-for(var i = 0; i < colors.length; i++) {
-    colorButton(colors[i],'');
+function colorPalette() {
+  for (let i = 0; i < colors.length; i++) {
+    colorButton(colors[i], "");
+  }
 }
 
-
+function clearPage () {
+    document.body.innerHTML = "";
+    setupPage();
+}
 
 //color theme nightMode
- function nightMode () {
-    backgroundColor = '#121212';
-    color = 'white';
-    borderColors = 'gray';
-    toolboxColor = '#121212';
-    boardColor = '#121212';
-    fontColor = '#800000';
-    buttonColor = 'gray';
-    fontColor2 = 'red'
+function nightMode() {
+  backgroundColor = "#121212";
+  color = "white";
+  borderColors = "gray";
+  toolboxColor = "#121212";
+  boardColor = "#121212";
+  fontColor = "#800000";
+  buttonColor = "gray";
+  fontColor2 = "red";
+
+  document.body.innerHTML = "";
+  buttonContainerDraw();
+  createButtons();
+  chalkboard();
+  colorPalette();
 }
 //color theme dayMode
-function dayMode () {
-    backgroundColor = 'white';
-    color = 'black';
-    borderColors = 'black';
-    toolboxColor = 'gray';
-    boardColor = 'white';
-    fontColor = 'black';
-    buttonColor = 'white';
-    fontColor2 = 'gray';
+function dayMode() {
+  backgroundColor = "white";
+  color = "black";
+  borderColors = "black";
+  toolboxColor = "gray";
+  boardColor = "white";
+  fontColor = "black";
+  buttonColor = "white";
+  fontColor2 = "gray";
+
+  document.body.innerHTML = "";
+  setupPage();
 }
 //color theme chalkboard
-function chalkboardTheme () {
-    backgroundColor = 'lightBlue';
-    color = 'white';
-    borderColors = 'brown';
-    toolboxColor = 'yellow';
-    boardColor = 'forestgreen';
-    fontColor = 'yellow';
-    buttonColor = 'brown';
-    fontColor2 = 'black';
+function chalkboardTheme() {
+  backgroundColor = "lightBlue";
+  color = "white";
+  borderColors = "brown";
+  toolboxColor = "yellow";
+  boardColor = "forestgreen";
+  fontColor = "yellow";
+  buttonColor = "brown";
+  fontColor2 = "black";
+
+  document.body.innerHTML = "";
+  setupPage();
 }
-
-
-//paintbrush mode
-//??if mousedown, start mouseenter, end at mouseup
-function paintbrush () {
-
-}
-    
