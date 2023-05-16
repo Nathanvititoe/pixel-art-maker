@@ -90,7 +90,9 @@ setupPage();
 function setupPage() {
   topPageContainerDraw();
   buttonContainerDraw();
+  toolContainerDraw();
   eraserContainerDraw();
+  colorWheel();
   createButtons();
   chalkboard();
   colorPalette();
@@ -109,20 +111,62 @@ function topPageContainerDraw() {
   topPageContainer.style.background = toolboxColor;
   topPageContainer.style.display = "flex";
   topPageContainer.style.alignItems = "center";
-  topPageContainer.style.justifyContent = "space-evenly";
+  topPageContainer.style.justifyContent = "space-around";
+}
+
+function toolContainerDraw() {
+  var toolContainer = document.createElement("div");
+  toolContainer.setAttribute("id", "toolContainer");
+  var topPageContainer = document.getElementById("topPageContainer");
+  topPageContainer.appendChild(toolContainer);
+
+  toolContainer.style.border = `3px solid ${borderColors}`;
+  toolContainer.style.height = "80px";
+  toolContainer.style.width = "33%";
+  toolContainer.style.margin = "auto";
+  toolContainer.style.background = boardColor;
+  toolContainer.style.display = "flex";
+  toolContainer.style.alignItems = "center";
+  toolContainer.style.justifyContent = "space-evenly";
 }
 
 function eraserContainerDraw() {
   var eraserPic = document.createElement("img");
   eraserPic.setAttribute("src", "/eraser.png");
-  topPageContainer.appendChild(eraserPic);
+  var toolContainer = document.getElementById('toolContainer');
+  toolContainer.appendChild(eraserPic);
 
-  eraserPic.style.height = "150px";
-  eraserPic.style.width = "150px";
+  eraserPic.style.height = "125px";
+  eraserPic.style.width = "125px";
   eraserPic.style.marginRight = "15%";
 
   eraserPic.addEventListener("click", function () {
    color = boardColor;
+  });
+}
+
+function colorWheel () {
+  var toolContainer = document.getElementById('toolContainer');
+  var colorWheel = document.createElement('input');
+  colorWheel.setAttribute('type','color');
+  colorWheel.setAttribute('id', 'colorWheel')
+  toolContainer.appendChild(colorWheel);
+  var colorWheelLabel = document.createElement('label');
+  colorWheelLabel.setAttribute('for', 'colorWheel');
+  colorWheelLabel.textContent = 'Color';
+  toolContainer.appendChild(colorWheelLabel);
+
+  colorWheelLabel.style.marginRight = '10%';
+  colorWheelLabel.style.marginLeft = '-9%';
+  colorWheelLabel.style.fontFamily = 'Georgia';
+  colorWheelLabel.style.color = fontColor;
+  colorWheel.style.marginLeft = '-10%';
+  colorWheel.style.height = '90%';
+  colorWheel.style.width = '15%';
+  colorWheel.style.padding = '0';
+
+  colorWheel.addEventListener('change', function() {
+    color = colorWheel.value;
   });
 }
 
@@ -135,7 +179,7 @@ function buttonContainerDraw() {
 
   buttonContainer.style.border = `3px solid ${borderColors}`;
   buttonContainer.style.height = "50px";
-  buttonContainer.style.width = "50%";
+  buttonContainer.style.width = "33%";
   buttonContainer.style.margin = "auto";
   buttonContainer.style.background = boardColor;
   buttonContainer.style.display = "flex";
@@ -281,10 +325,7 @@ function nightMode() {
   fontColor2 = "red";
 
   document.body.innerHTML = "";
-  buttonContainerDraw();
-  createButtons();
-  chalkboard();
-  colorPalette();
+  setupPage();
 }
 //color theme dayMode
 function dayMode() {
@@ -314,3 +355,4 @@ function chalkboardTheme() {
   document.body.innerHTML = "";
   setupPage();
 }
+
